@@ -3,12 +3,33 @@ import { UserCard } from "@/components/UserCard";
 import { cleanUser } from "@/libs/cleanUser";
 import axios from "axios";
 import { useState } from "react";
+import { useEffect } from "react";
 
 export default function RandomUserPage() {
   //user = null or array of object
   const [users, setUsers] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [genAmount, setGenAmount] = useState(1); // อยากได้กี่คน
+  const [isfirstload, setisfirstload] = useState(true);
+
+  useEffect(() => {
+    if (isfirstload) {
+      setisfirstload(false); // ทำให้ไม่เอาค่าว่างเปล่าเขียน storage
+      return;
+    }
+    // const firstTrue = JSON.stringify(genAmount);
+    localStorage.setItem("index", genAmount);
+  }, [genAmount]);
+
+  useEffect(() => {
+    const stramount = localStorage.getItem("index"); // get ข้อมูล in storage
+    if (stramount === null) {
+      setGenAmount();
+      return;
+    }
+    const loadedindex = JSON.parse(stramount); //แปลง string เป็น object //error all code เพราะ มีการใช้ null โดยไม่ได้ check
+    setGenAmount(loadedindex);
+  }, []);
 
   const generateBtnOnClick = async () => {
     setIsLoading(true);
