@@ -17,8 +17,8 @@ export default function RandomUserPage() {
       setisfirstload(false); // ทำให้ไม่เอาค่าว่างเปล่าเขียน storage
       return;
     }
-    // const firstTrue = JSON.stringify(genAmount);
-    localStorage.setItem("index", genAmount);
+    const firstTrue = JSON.stringify(genAmount);
+    localStorage.setItem("index", firstTrue);
   }, [genAmount]);
 
   useEffect(() => {
